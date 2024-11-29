@@ -1,10 +1,9 @@
-import { useState} from 'react';
+import { useState } from 'react';
 import '../src/App.css';
 
 function Game() {
   const [userName, setUserName] = useState('');
   const [isRegistered, setIsRegistered] = useState(false);
-  const [guess, setGuess] = useState('');
   const [message, setMessage] = useState('');
   const [cardImage, setCardImage] = useState(null);
   const [score, setScore] = useState(0);
@@ -36,8 +35,7 @@ function Game() {
     }
   };
   
-  const handleGuess = async (guessChoice) => {
-    setGuess(guessChoice);
+  const handleGuess = async (guess) => {
     setMessage('');
     setError('');
 
@@ -45,7 +43,7 @@ function Game() {
       const response = await fetch('http://localhost:4000/api/guess', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ guess: guessChoice }),
+        body: JSON.stringify({ guess }),
         credentials: 'include',
       });
   
@@ -64,8 +62,6 @@ function Game() {
     try {
       const response = await fetch('http://localhost:4000/api/endgame', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userName, score }),
         credentials: 'include',
       });
       const data = await response.json();
